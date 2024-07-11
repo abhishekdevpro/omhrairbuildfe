@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaLinkedin, FaGithub } from 'react-icons/fa';
 
 const Template1 = ({
   data = {},
@@ -69,6 +70,10 @@ const Template1 = ({
 
   const allDetailsFilled6 = summary.some(summar => summar.summarydescription.trim() !== '');
 
+  const truncate = (str, maxLength) => {
+    if (!str) return '';
+    return str.length > maxLength ? str.substring(0, maxLength) + '...' : str;
+  };
   return (
     <div
       className={`border-2 border-gray-300 p-7 ${textSizeClass} ${sectionSpacingClass} ${lineHeightClass}`}
@@ -100,72 +105,101 @@ const Template1 = ({
 
       <div>
         {/* User details */}
-{details.map((del, index) => (
-  <div key={index}>
-    <h3 className="text-xs sm:text-sm md:text-2xl lg:text-3xl text-cyan-600 font-bold ms-2 ">
-      {del.name || predefinedText.details.name}
-    </h3>
-    <p className="text-xs sm:text-sm md:text-xl lg:text-lg ms-2">
-      {del.Profession || predefinedText.details.profession}
-    </p>
 
-    <ul className="flex text-xs sm:text-sm md:text-xs lg:text-xs m-2 gap-2">
-      <li>{del.address || predefinedText.details.address}</li>
-      <li className={`${del.phoneNumber ? 'before:content-["●"] before:m-2 font' : ''}  break-all`}>
-        {del.phoneNumber || predefinedText.details.phoneNumber}
-      </li>
-      <li className={`${del.email ? 'before:content-["●"] before:m-2' : ''} w-2/2 break-all`}>
-        {del.email || predefinedText.details.email}
-      </li>
-      <li className={`${del.link ? 'before:content-["●"] before:m-2' : ''} w-2/2 break-all`}>
-        <a href={del.link || '#'}>{del.link || predefinedText.details.link}</a>
-      </li>
-      <li className={`${del.github ? 'before:content-["●"] before:m-2' : ''} w-2/2 break-all`}>
-        <a href={del.github || '#'}>{del.github || predefinedText.details.github}</a>
-      </li>
-      <li className={`${del.projects ? 'before:content-["●"] before:m-2' : ''} w-2/2 break-all`}>
+        {details.map((del, index) => (
+        <div key={index}>
+          <h3 className="text-xs sm:text-sm md:text-2xl lg:text-3xl text-cyan-600 font-bold ms-">
+            {truncate(del.name || predefinedText.details.name, 20 )}
+          </h3>
+          <p className="text-xs sm:text-sm md:text-xl lg:text-lg ms-">
+            {truncate(del.Profession || predefinedText.details.profession, 200)}
+          </p>
+          <ul className="flex text-xs sm:text-xs md:text-xs lg:text-xs m-2 gap-4 font-semibold">
+            <li>
+              <FaMapMarkerAlt className="inline-block align-text-top mr-1" />
+              {truncate(del.address || predefinedText.details.address, 25)}
+            </li>
+            <li>
+              <FaPhoneAlt className="inline-block align-text-top mr-1" />
+              {truncate(del.phoneNumber || predefinedText.details.phoneNumber, 15)}
+            </li>
+            <li>
+              <FaEnvelope className="inline-block align-text-top mr-1" />
+              {truncate(del.email || predefinedText.details.email, 25)}
+            </li>
+            <li>
+              <FaLinkedin className="inline-block align-text-top mr-1" />
+              <a href={del.link || '#'} target="_blank" rel="noopener noreferrer">
+                {truncate(del.link || predefinedText.details.link, 15)}
+              </a>
+            </li>
+            <li className={`${del.projects ? 'before:content-["●"] before:m-2' : ''} w-2/2 break-all`}>
         <a href={del.projects || '#'}>{del.projects || predefinedText.details.projects}</a>
       </li>
-    </ul>
-    {summary.map((sum, index) => (
-      <div key={index}>
-        <p className={`${paragraphSpacingClass} text-xs sm:text-sm md:text-sm lg:text-sm m-2 w-2/2 break-all`}>
-          {sum.summarydescription || predefinedText.summary.summarydescription}
-        </p>
-        <br />
-      </div>
-    ))}
-    
+            <li>
+              
+              <a href={del.github || '#'} target="_blank" rel="noopener noreferrer">
+                {truncate(del.github || predefinedText.details.github, 15)}
+              </a>
+            </li>
+            {/* Add more icons and links as needed */}
+          </ul>
+        
+    {summary.length > 0 ? (
+  summary.map((sum, index) => (
+    <div key={index}><div className='font-bold'>Summary</div>
+      <p
+        className={`${paragraphSpacingClass} text-xs sm:text-sm md:text-sm lg:text-sm m-2 w-2/2 break-all`}
+        dangerouslySetInnerHTML={{ __html: sum.summarydescription.trim() || predefinedText.summary.summarydescription }}
+      />
+      <br />
+    </div>
+  ))
+) : (
+  <div>
+    <p
+      className={`${paragraphSpacingClass} text-xs sm:text-sm md:text-sm lg:text-sm m-2 w-2/2 break-all`}
+      dangerouslySetInnerHTML={{ __html: predefinedText.summary.summarydescription }}
+    />
+    <br />
   </div>
-))}
+)}
+
+          </div>
+        ))}
 
 
 
         {/* Rendering work experience */}
-<div>
+        <div>
   <h5 className="text-cyan-600 font-bold">WORK EXPERIENCE</h5>
   {experiences.map((exp, index) => (
     <div key={index}>
       <div className="flex justify-between">
         <h6 className="font-bold break-all">{exp.Company || predefinedText.experiences.company}</h6>
-        <p>{exp.month1} - {exp.month2}</p>
+        <p className="text-xs sm:text-sm md:text-sm lg:text-sm">{exp.month1} - {exp.month2}</p>
       </div>
       <div className="flex justify-between">
-        <h6>{exp.role ||  predefinedText.experiences.role }</h6>
-        <p>{exp.companyplace ||  predefinedText.experiences.companyplace}</p>
+        <h6 className="text-xs sm:text-sm md:text-sm lg:text-sm">{exp.role ||  predefinedText.experiences.role }</h6>
+        <p className="text-xs sm:text-xs md:text-xs lg:text-xs">{exp.companyplace ||  predefinedText.experiences.companyplace}</p>
       </div>
-      <ul className="m-2">
-        {exp.companydescription && exp.companydescription || predefinedText.experiences.companydescription.split(/\r?\n/).map((line, i) => (
-          <li
-            key={i}
-            className={`${paragraphSpacingClass} ${
-              line.trim() ? 'before:content-["•"] before:mr-1' : ''
-            } text-xs sm:text-sm md:text-sm lg:text-sm m-2 w-2/2 break-all`}
-          >
-            {line}
-          </li>
-        ))}
-      </ul>
+      <ul className={`${exp.companydescription ? 'text-xs sm:text-xs md:text-xs lg:text-xs' : ''} w-full break-all`}>
+  {exp.companydescription ? (
+    // If company description is provided, split by new lines and render each line as a list item
+    exp.companydescription.split(/\r?\n/).map((line, i) => (
+      <li
+        key={i}
+        className={`${line.trim() ? 'before:content-[""] before:mr-1' : ''} text-xs sm:text-xs md:text-xs lg:text-xs m-2 w-full break-all`}
+        style={{ marginBottom: '4px' }} // Adjust margin bottom as needed
+        dangerouslySetInnerHTML={{ __html: line ? `•${line}` : '' }}
+      />
+    ))
+  ) : (
+    // Render a placeholder or message if company description is not provided
+    <li className="text-gray-400 italic">No description provided</li>
+  )}
+</ul>
+
       <br />
     </div>
   ))}

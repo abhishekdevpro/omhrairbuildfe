@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Import styles for ReactQuill
 
-const Experience = ({ experiences = [], handleInputChange, addExperience, deleteExperience, handleKeyPress }) => {
+const Experience = ({ experiences = [], handleInputChange, addExperience, deleteExperience }) => {
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(false);
   const [isExperienceComplete, setIsExperienceComplete] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedExperienceIndex, setSelectedExperienceIndex] = useState(null);
+  const [editorHtml, setEditorHtml] = useState('');
 
   useEffect(() => {
     checkExperienceCompletion();
@@ -19,22 +27,58 @@ const Experience = ({ experiences = [], handleInputChange, addExperience, delete
     setIsExperienceComplete(complete);
   };
 
-  // Function to handle changes in the company description field
-  const handleDescriptionChange = (e, index) => {
-    const { value } = e.target;
+  const handleDescriptionChange = (html, index) => {
+    setEditorHtml(html);
+    handleInputChange({ target: { name: 'companydescription', value: html } }, index, 'experiences');
+  };
 
-    // Replace carriage return (\r) characters with newline (\n) characters
-    const formattedValue = value.replace(/\r/g, '\n');
+  const toggleDropdown = (index) => {
+    setShowDropdown(!showDropdown);
+    setSelectedExperienceIndex(index);
+  };
 
-    // Call the parent component's handleInputChange function with the updated value
-    handleInputChange({ target: { name: 'companydescription', value: formattedValue } }, index, 'experiences');
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearch = async () => {
+    const accessToken = 'jobSeekerLoginToken'; // Replace with the actual access token or retrieve it from secure storage
+    try {
+      const response = await axios.post(
+        'https://api.abroadium.com/api/jobseeker/ai-resume-profexp-data',
+        { query: searchQuery },
+        { headers: { Authorization: accessToken } }
+      );
+      setSearchResults(response.data.results || []);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  };
+
+  const handleSearchKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleSearchResultClick = (result, index) => {
+    const updatedExperiences = [...experiences];
+    updatedExperiences[index].companydescription = result;
+    setEditorHtml(result); // Set ReactQuill editor content
+    handleInputChange(
+      { target: { name: 'companydescription', value: result } },
+      index,
+      'experiences'
+    );
+    setSearchResults([]);
+    setShowDropdown(false);
   };
 
   return (
     <div className='mt-4'>
-      <div className=" md:px-10">
+      <div className="md:px-10">
         {experiences.map((exp, index) => (
-          <div key={index} className="mt-4  p-4">
+          <div key={index} className="mt-4 p-4">
             <h6 className='font-bold text-xs my-2'>* indicates a required field</h6>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
@@ -105,7 +149,6 @@ const Experience = ({ experiences = [], handleInputChange, addExperience, delete
                 checked={isCurrentlyWorking}
                 onChange={() => {
                   setIsCurrentlyWorking(!isCurrentlyWorking);
-                  // If the user is currently working, set month2 to "Present", else keep it empty
                   handleInputChange(
                     { target: { name: "month2", value: isCurrentlyWorking ? "" : "Present" } },
                     index,
@@ -136,20 +179,50 @@ const Experience = ({ experiences = [], handleInputChange, addExperience, delete
 
             <div className="flex justify-between mt-4">
               <h3 className="text-lg font-medium">Description</h3>
-              <h3 className="text-lg font-medium">AI - Assist</h3>
+              <button className="text-lg font-medium text-blue-500" onClick={() => toggleDropdown(index)}>
+                AI - Assist
+              </button>
             </div>
-            <textarea 
-              name="companydescription"
-              id={`companydescription_${index}`}
-              value={exp.companydescription}
-              onChange={(e) => handleDescriptionChange(e, index)}
-              className="w-full h-32 p-2 mt-2 border border-black rounded-lg"
+            {showDropdown && selectedExperienceIndex === index && (
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onKeyPress={handleSearchKeyPress}
+                  className="w-full p-2 border border-black rounded-lg mt-2"
+                />
+                <button 
+                  className="w-full p-2 bg-blue-500 text-white rounded-lg mt-2"
+                  onClick={handleSearch}
+                >
+                  Search
+                </button>
+                <div className="absolute w-full mt-1 bg-white border border-black rounded-lg shadow-lg z-10">
+                  {searchResults.map((result, idx) => (
+                    <div
+                      key={idx}
+                      className="p-2 hover:bg-gray-200 cursor-pointer"
+                      onClick={() => handleSearchResultClick(result, index)}
+                    >
+                      {result}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            <ReactQuill
+              theme="snow"
+              value={editorHtml}
+              onChange={(html) => handleDescriptionChange(html, index)}
+              className="mt-2 h-32"
             />
 
             <button
               type="button"
               onClick={() => deleteExperience(index)}
-              className="mt-2 text-red-500"
+              className="mt-20 text-red-500"
             >
               Delete Experience
             </button>
