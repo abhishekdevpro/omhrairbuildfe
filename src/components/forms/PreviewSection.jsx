@@ -125,6 +125,7 @@ console.log(skillsfromapi,'api')
         }
       });
       console.log('Resume updated successfully:', response.data);
+      
       // Handle success (e.g., show a success message, redirect, etc.)
     } catch (error) {
       console.error('Error updating resume:', error);

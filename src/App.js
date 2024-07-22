@@ -6,6 +6,7 @@ import Uploadresume from './components/Uploadresume';
 import Selectionresume from './components/Selectionresume';
 import 'react-quill/dist/quill.snow.css';
 import './index.css'
+import Paymentpage from './components/Paymentpage';
 
 function App() {
   
@@ -16,6 +17,7 @@ function App() {
           <Route path="/form" element={<Form />} />
           <Route path="/" element={<Selectionresume />} />
           <Route path="/uploadresume" element={<Uploadresume />} />
+          <Route path="/paymentpage" element={<Paymentpage />} />
         </Routes>
       </div>
     </Router>

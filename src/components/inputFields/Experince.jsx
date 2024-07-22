@@ -42,10 +42,11 @@ const Experience = ({ experiences = [], handleInputChange, addExperience, delete
   };
 
   const handleSearch = async () => {
-    const accessToken = 'jobSeekerLoginToken'; // Replace with the actual access token or retrieve it from secure storage
+    const accessToken = 'jobSeekerLoginToken';
+   console.log(accessToken,"tokenn")
     try {
       const response = await axios.post(
-        'https://api.abroadium.com/api/jobseeker/ai-resume-profexp-data',
+        'https://api.novajobs.us/api/jobseeker/ai-resume-profexp-data',
         { query: searchQuery },
         { headers: { Authorization: accessToken } }
       );
