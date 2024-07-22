@@ -22,7 +22,7 @@ function Selectionresume() {
     return (
         <>
             <div className="flex justify-between p-2 h-14 bg-blue-300">
-                <img src={logo} alt="Logo" style={{ width: '130px' }} />
+                
             </div>
             <div className="min-h-screen flex flex-col ">
                 <div className="text-center my-10">
