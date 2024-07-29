@@ -82,23 +82,21 @@ const Template10 = ({
     <div className={`border break-all ${textSizeClass} ${sectionSpacingClass} ${lineHeightClass}`} style={{ fontFamily: font }}>
       {!isPreviewScreen && !isTemplate1Previewing && (
         <div className="">
-          {allDetailsFilled && (
-            <div className="w-7 h-7 ps-2.5  mt-3 bg-white rounded-2xl absolute top-48 left-10 font-bold">1</div>
+           {allDetailsFilled && (
+            <div className="w-7 h-7 ps-2.5 mt-11 bg-white rounded-2xl absolute top-48 left-10 font-bold">1</div>
           )}
           {allDetailsFilled2 && (
-            <div className="w-7 h-8 ps-2.5 pt-0.5 mt-2 bg-white rounded-2xl absolute top-60 left-10 font-bold">2</div>
+            <div className="w-7 h-8 ps-2.5 pt-0.5 mt-10 bg-white rounded-2xl absolute top-60 left-10 font-bold">2</div>
           )}
           {allDetailsFilled3 && (
-            <div className="w-7 h-8 ps-2.5 pt-0.5 mt-2 bg-white rounded-2xl absolute top-72 left-10 font-bold">3</div>
+            <div className="w-7 h-8 ps-2.5 pt-0.5 mt-10 bg-white rounded-2xl absolute top-72 left-10 font-bold">3</div>
           )}
           {allDetailsFilled4 && (
-            <div className="w-7 h-8 ps-2.5  mt-6 bg-white rounded-2xl absolute top-80 left-10 font-bold">4</div>
+            <div className="w-7 h-8 ps-2.5 mt-14 bg-white rounded-2xl absolute top-80 left-10 font-bold">4</div>
           )}
-          {allDetailsFilled5 && (
-            <div className="w-7 h-7 ps-2.5  mt-14 bg-white rounded-2xl absolute top-96 left-10 font-bold">6</div>
-          )}
+          
           {allDetailsFilled6 && (
-            <div className="w-7 h-7 ps-2.5  mt-2  bg-white rounded-2xl absolute top-96 left-10 font-bold">5</div>
+            <div className="w-7 h-7 ps-2.5 mt-10 bg-white rounded-2xl absolute top-96 left-10 font-bold">5</div>
           )}
         </div>
       )}
@@ -183,7 +181,7 @@ const Template10 = ({
           </div>
         </div>
 
-        <div className='md:w-2/3 md:p white'>
+        <div className='md:w-2/3 md:p white '>
           {details.map((del, index) => (
             <div key={index} className='bg-yellow-300  h-28 mt-12'><br />
               <h3 className="text-lg md:text-xl lg:text-2xl text-gray-700 font-bold ms-10">{del.name || predefinedText.details.name}</h3>
@@ -193,21 +191,33 @@ const Template10 = ({
           <h5 className='font-extrabold mb-2 ms-7'>Experience </h5>
           <div className="flex-grow border-t-2 border-yellow-300 align-super ms-7"></div>
           {experiences.map((exp, index) => (
-            <div key={index} className='ms-10'>
-              <div> </div>
-              <div>
-                <p className='text-xs mt-3 mb-2'>{exp.month1 || "2024/01"}- {exp.month2 || "2024/05"}</p>
+    <div key={index} className='ms-4'>
+       <p className='text-xs mt-3 mb-2'>{exp.month1 || "2024/01"}- {exp.month2 || "2024/05"}</p>
                 <div className='flex'>
                   <h6 className='font-semibold text-sm'>{exp.Company || "Resume World company Inc."} </h6>
                   <h6 className=' text-sm ps-1'>{exp.companyplace}</h6>
                 </div>
                 <h6 className='text-sm'>{exp.role || "Software Developer"}</h6>
-                <ul className='m-2 text-xs'>
-                  <li>{exp.companydescription || predefinedText.experiences.companydescription}</li>
-                </ul>
-              </div>
-            </div>
-          ))}
+      <ul className={`${exp.companydescription ? 'text-xs sm:text-xs md:text-xs lg:text-xs' : ''} w-full break-all`}>
+  {exp.companydescription ? (
+    // If company description is provided, split by new lines and render each line as a list item
+    exp.companydescription.split(/\r?\n/).map((line, i) => (
+      <li
+        key={i}
+        className={`${line.trim() ? 'before:content-[""] before:mr-1' : ''} text-xs sm:text-xs md:text-xs lg:text-xs m-2 w-full break-all`}
+        style={{ marginBottom: '4px' }} // Adjust margin bottom as needed
+        dangerouslySetInnerHTML={{ __html: line ? `•${line}` : '' }}
+      />
+    ))
+  ) : (
+    // Render a placeholder or message if company description is not provided
+    <li className="text-gray-400 italic">No description provided</li>
+  )}
+</ul>
+
+      <br />
+    </div>
+  ))}
         </div>
       </div>
     </div>

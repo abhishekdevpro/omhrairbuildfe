@@ -3,7 +3,7 @@ import axios from 'axios';
 import PdfDownloadButton from '../forms/PdfDownloadButton';
 import TemplateComponent from './templateComponent';
 import FunctionalityOfCV from './FunctionalityOfCV';
-
+import { useNavigate } from "react-router-dom";
 const PreviewSection = ({
   cvRef,
   handlePrint,
@@ -19,7 +19,11 @@ const PreviewSection = ({
   setSelectedFont,
   boxBgColor,
   setBoxBgColor,
-  skillsfromapi
+  skillsfromapi,
+  id,
+  token,
+  token1,
+  image
 }) => {
   const [textSize, setTextSize] = useState(2);
   const [sectionSpacing, setSectionSpacing] = useState(2);
@@ -154,7 +158,8 @@ console.log(skillsfromapi,'api')
       </div>
       <div className='flex justify-center mb-40'>
         <div className="w-3/6 pt-10 overflow-auto mb-10">
-          <TemplateComponent
+        <TemplateComponent
+           image={image}
             ref={cvRef}
             data={formData}
             selectedTemplate={selectedTemplate}
@@ -176,23 +181,10 @@ console.log(skillsfromapi,'api')
               <PdfDownloadButton targetRef={cvRef} />
             </div>
             <div className='mt-4'>
-              <button
-                onClick={handlePrint}
-                className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-blue-500 rounded-lg group bg-blue-800 group-hover:bg-blue-950 border hover:text-white dark:text-blue focus:ring-2 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-100"
-              >
-                <span className="relative px-9 py-5 transition-all ease-in duration-75 bg-white dark:bg-gray-100 rounded-md group-hover:bg-opacity-0 font-bold">
-                  Print
-                </span>
-              </button>
+             
             </div>
           </div>
-          <button
-            type="button"
-            onClick={updateResume}
-            className="ms-5 mt-5 mb-10 text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-bold rounded-full px-28 py-3 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 me-2 "
-          >
-            Finish Resume
-          </button>
+          
           <div>
       {accuracyPercentage !== null ? (
         <div className="api-data-container border-amber-600 border-4 py-4 ms-3">

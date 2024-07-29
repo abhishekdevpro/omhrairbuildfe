@@ -31,15 +31,18 @@ function Selectionresume() {
                 </div>
 
                 <div className="flex flex-col md:flex-row justify-center gap-10 mx-5">
-                    <button onClick={handleClick2} className="w-full md:w-auto">
+                    <button /*onClick={handleClick2} */ className="w-full md:w-auto">
+                        
                         <div className="my-10 p-10 px-16 border rounded-md border-gray-400 text-center">
+                        [Currently Unavailable]
                             <img src={upload} alt="Upload Icon" style={{ height: '50px' }} className="mx-auto mb-4" />
+                          
                             <h1 className="font-bold text-lg mb-2 text-slate-700">Yes, upload from my resume</h1>
                             <h6 className="text-xs">We'll give you expert guidance to fill out your info <br /> and enhance your resume, from start to finish</h6>
                         </div>
                     </button>
-                    <button onClick={handleClick} className="w-full md:w-auto">
-                        <div className="my-10 p-10 border rounded-md border-gray-400 text-center">
+                    <button onClick={handleClick} className="w-full md:w-auto ">
+                        <div className="my-10 p-10 py-12 border rounded-md border-gray-400 text-center">
                             <img src={edit} alt="Edit Icon" style={{ height: '50px' }} className="mx-auto mb-4" />
                             <h1 className="font-bold text-lg mb-2 text-slate-700">No, start from scratch</h1>
                             <h6 className="text-xs">We'll guide you through the whole process so your <br /> skills can shine</h6>

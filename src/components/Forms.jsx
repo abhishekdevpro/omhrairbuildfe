@@ -437,17 +437,19 @@ return (
               isDetailsComplete6={isDetailsComplete6}
             />
           </div>
-          <div className="flex w-full sm:w-4/5  justify-center">
-            <div className="absolute h-screen">
+          <div className="flex w-full sm:w-full justify-end">
+            <div className="absolute h-screen ">
               {/* Conditionally render the screen component based on the current section */}
-              {showComponent && screenComponents[sectionsList[currentStep]]}
+             
             </div>
-            <div className="w-4/5 p-3 h-screen ">
+            <div className="w-3/6  h-screen">
+          
               {/* Render Active Section */}
               {(() => {
                 switch (sectionsList[currentStep]) {
                   case 'Details':
                     return <Details
+                   
                     image={image}
                     setImage={setImage}
                     details={formData.details}
@@ -471,6 +473,7 @@ return (
                   case 'Education':
                     return (
                       <Education
+                    
                         educations={formData.educations}
                         handleInputChange={handleInputChange}
                         addEducation={() => addField('educations')}
@@ -480,6 +483,7 @@ return (
                   case 'Skills':
                     return (
                       <Skills
+                     
                         skills={formData.skills}
                         handleInputChange={handleInputChange}
                         addSkill={() => addField('skills')}
@@ -488,7 +492,9 @@ return (
                       />
                     );
                   case 'summary':
-                    return <Summary summary={formData.summary} handleInputChange={handleInputChange} />;
+                    return <Summary summary={formData.summary} 
+                    handleInputChange={handleInputChange}
+                    />;
                   case 'Language':
                     return (
                       <Language
@@ -517,7 +523,7 @@ return (
                 }
               })()}
             </div>
-            <div className="w-3/5 overflow-y-auto overflow-x-auto h-full justify-center  py-10 mb-10 hidden md:block">
+            <div className=" w-4/6 ms-10 overflow-y-auto overflow-x-auto h-full  py-10 mb-10 border-r-2">
               <div className=' mb-5 ms-60 '><Tooltip/></div>
               
               <TemplateComponent

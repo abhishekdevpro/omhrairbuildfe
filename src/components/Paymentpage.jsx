@@ -1,12 +1,13 @@
 import React from 'react';
 import axios from 'axios';
+
 function Paymentpage() {
     const handlePayment = () => {
         const options = {
-          key: 'rzp_test_rZaWARvDVQrglw', // Replace with your Razorpay Key ID
-          amount: '50000', // Amount in paise (e.g., 50000 paise = INR 500)
+          key: 'Ec76fe9TEqSgbYTsdMrSTN8K', // Replace with your Razorpay Key ID
+          amount: '49000', // Amount in paise (e.g., 50000 paise = INR 500)
           currency: 'INR',
-          name: 'Perfect Resume',
+          name: 'Om Hr',
           description: 'Test Transaction',
           image: 'https://example.com/your_logo.png',
            // Your logo or any image
@@ -31,7 +32,7 @@ function Paymentpage() {
     
       return (
         <button onClick={handlePayment} className="btn btn-primary">
-          Pay with Razorpay
+          Pay with Razorpa
         </button>
       );
     };

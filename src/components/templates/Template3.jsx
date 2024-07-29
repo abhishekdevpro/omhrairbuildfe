@@ -69,14 +69,36 @@ const Template3 = ({
           <div key={index}>
             <h5 className=' font-bold'>PROFESSIONAL EXPERIENCE</h5>
             <div className="flex-grow border-t border-black align-super my-2"></div>
-            <div className='flex justify-between mt-4'>
-              <h6 className='font-bold text-xs'>{exp.Company || predefinedText.experiences.company}</h6><br />
-              <p className='text-xs'>{exp.month1} - {exp.month2}</p>
-            </div>
-            <h6 className='text-xs'>{exp.role ||  predefinedText.experiences.role }</h6>
-            <ul className='my-2'>
-              <li className='text-xs md:text-xs lg:text-xs mx-2 w-2/2 break-all'>{exp.companydescription || predefinedText.experiences.companydescription}</li><br />
-            </ul>
+            {experiences.map((exp, index) => (
+    <div key={index}>
+      <div className="flex justify-between">
+        <h6 className="font-bold break-all">{exp.Company || predefinedText.experiences.company}</h6>
+        <p className="text-xs sm:text-sm md:text-sm lg:text-sm">{exp.month1} - {exp.month2}</p>
+      </div>
+      <div className="flex justify-between">
+        <h6 className="text-xs sm:text-sm md:text-sm lg:text-sm">{exp.role ||  predefinedText.experiences.role }</h6>
+        <p className="text-xs sm:text-xs md:text-xs lg:text-xs">{exp.companyplace ||  predefinedText.experiences.companyplace}</p>
+      </div>
+      <ul className={`${exp.companydescription ? 'text-xs sm:text-xs md:text-xs lg:text-xs' : ''} w-full break-all`}>
+  {exp.companydescription ? (
+    // If company description is provided, split by new lines and render each line as a list item
+    exp.companydescription.split(/\r?\n/).map((line, i) => (
+      <li
+        key={i}
+        className={`${line.trim() ? 'before:content-[""] before:mr-1' : ''} text-xs sm:text-xs md:text-xs lg:text-xs m-2 w-full break-all`}
+        style={{ marginBottom: '4px' }} // Adjust margin bottom as needed
+        dangerouslySetInnerHTML={{ __html: line ? `•${line}` : '' }}
+      />
+    ))
+  ) : (
+    // Render a placeholder or message if company description is not provided
+    <li className="text-gray-400 italic">No description provided</li>
+  )}
+</ul>
+
+      <br />
+    </div>
+  ))}
           </div>
         ))}
       </div>

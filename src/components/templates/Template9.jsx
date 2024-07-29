@@ -64,23 +64,21 @@ const Template9 = ({
     <div className={`border break-all  ${textSizeClass} ${sectionSpacingClass} ${lineHeightClass}`} style={{ fontFamily: font }}>
       {!isPreviewScreen && !isTemplate1Previewing && (
         <div className="">
-          {allDetailsFilled && (
-            <div className="w-7 h-7 ps-2.5  mt-3 bg-white rounded-2xl absolute top-48 left-10 font-bold">1</div>
+           {allDetailsFilled && (
+            <div className="w-7 h-7 ps-2.5 mt-11 bg-white rounded-2xl absolute top-48 left-10 font-bold">1</div>
           )}
           {allDetailsFilled2 && (
-            <div className="w-7 h-8 ps-2.5 pt-0.5 mt-2 bg-white rounded-2xl absolute top-60 left-10 font-bold">2</div>
+            <div className="w-7 h-8 ps-2.5 pt-0.5 mt-10 bg-white rounded-2xl absolute top-60 left-10 font-bold">2</div>
           )}
           {allDetailsFilled3 && (
-            <div className="w-7 h-8 ps-2.5 pt-0.5 mt-2 bg-white rounded-2xl absolute top-72 left-10 font-bold">3</div>
+            <div className="w-7 h-8 ps-2.5 pt-0.5 mt-10 bg-white rounded-2xl absolute top-72 left-10 font-bold">3</div>
           )}
           {allDetailsFilled4 && (
-            <div className="w-7 h-8 ps-2.5  mt-6 bg-white rounded-2xl absolute top-80 left-10 font-bold">4</div>
+            <div className="w-7 h-8 ps-2.5 mt-14 bg-white rounded-2xl absolute top-80 left-10 font-bold">4</div>
           )}
-          {allDetailsFilled5 && (
-            <div className="w-7 h-7 ps-2.5  mt-14 bg-white rounded-2xl absolute top-96 left-10 font-bold">6</div>
-          )}
+          
           {allDetailsFilled6 && (
-            <div className="w-7 h-7 ps-2.5  mt-2  bg-white rounded-2xl absolute top-96 left-10 font-bold">5</div>
+            <div className="w-7 h-7 ps-2.5 mt-10 bg-white rounded-2xl absolute top-96 left-10 font-bold">5</div>
           )}
         </div>
       )}
@@ -156,24 +154,54 @@ const Template9 = ({
   <p className='text-sm md:text-sm lg:text-sm mt-2'> {del.Profession || predefinedText.details.profession}</p> <br /> <br />
   <h5 className='font-bold mb-2 '>About Me </h5>
   <div className="flex-grow border-t border-gray-900 align-super"></div>
-  {summary.map((sum, index) => (
+  {summary.length > 0 ? (
+  summary.map((sum, index) => (
     <div key={index}>
-      <p className={`${paragraphSpacingClass} text-sm md:text-sm lg:text-sm  w-2/2 break-all`}>{sum.summarydescription || predefinedText.summary.summarydescription}</p>
+      <p
+        className={`${paragraphSpacingClass} text-xs sm:text-sm md:text-sm lg:text-sm m-2 w-2/2 break-all`}
+        dangerouslySetInnerHTML={{ __html: sum.summarydescription.trim() || predefinedText.summary.summarydescription }}
+      />
       <br />
     </div>
-  ))}
+  ))
+) : (
+  <div>
+    <p
+      className={`${paragraphSpacingClass} text-xs sm:text-sm md:text-sm lg:text-sm m-2 w-2/2 break-all`}
+      dangerouslySetInnerHTML={{ __html: predefinedText.summary.summarydescription }}
+    />
+    <br />
+  </div>
+)}
   <h5 className='font-bold mb-2'>Work Experience </h5>
   <div className="flex-grow border-t border-gray-900 align-super"></div>
   {experiences.map((exp, index) => (
     <div key={index}>
-      <div className='flex justify-between mt-4'>
-        <h6 className='font-bold'>{exp.Company || "ABC Inc."} </h6>
-        <p>{exp.month1}- {exp.month2}</p>
+      <div className="flex justify-between">
+        <h6 className="font-bold break-all">{exp.Company || predefinedText.experiences.company}</h6>
+        <p className="text-xs sm:text-sm md:text-sm lg:text-sm">{exp.month1} - {exp.month2}</p>
       </div>
-      <h6>{exp.role || "Software Developer"}</h6>
-      <ul className='m-2'>
-        <li>{exp.companydescription || "Description of job experience"}</li>
-      </ul>
+      <div className="flex justify-between">
+        <h6 className="text-xs sm:text-sm md:text-sm lg:text-sm">{exp.role ||  predefinedText.experiences.role }</h6>
+        <p className="text-xs sm:text-xs md:text-xs lg:text-xs">{exp.companyplace ||  predefinedText.experiences.companyplace}</p>
+      </div>
+      <ul className={`${exp.companydescription ? 'text-xs sm:text-xs md:text-xs lg:text-xs' : ''} w-full break-all`}>
+  {exp.companydescription ? (
+    // If company description is provided, split by new lines and render each line as a list item
+    exp.companydescription.split(/\r?\n/).map((line, i) => (
+      <li
+        key={i}
+        className={`${line.trim() ? 'before:content-[""] before:mr-1' : ''} text-xs sm:text-xs md:text-xs lg:text-xs m-2 w-full break-all`}
+        style={{ marginBottom: '4px' }} // Adjust margin bottom as needed
+        dangerouslySetInnerHTML={{ __html: line ? `•${line}` : '' }}
+      />
+    ))
+  ) : (
+    // Render a placeholder or message if company description is not provided
+    <li className="text-gray-400 italic">No description provided</li>
+  )}
+</ul>
+
       <br />
     </div>
   ))}

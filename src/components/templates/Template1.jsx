@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaLinkedin, FaGithub } from 'react-icons/fa';
-
 const Template1 = ({
   data = {},
   boxBgColor,
@@ -12,6 +11,7 @@ const Template1 = ({
   isPreviewScreen,
   isTemplate1Previewing,
   predefinedText = {},
+  skillsfromapi
 }) => {
 
 
@@ -76,37 +76,35 @@ const Template1 = ({
   };
   return (
     <div
-      className={`border-2 border-gray-300 p-7 ${textSizeClass} ${sectionSpacingClass} ${lineHeightClass}`}
+      className={`border-2  border-gray-300 p-7 ${textSizeClass} ${sectionSpacingClass} ${lineHeightClass}`}
       style={{ fontFamily: font }}
     >
       {/* Red circle indicating all fields are filled */}
       {!isPreviewScreen && !isTemplate1Previewing && (
         <div className="">
           {allDetailsFilled && (
-            <div className="w-7 h-7 ps-2.5 mt-3 bg-white rounded-2xl absolute top-48 left-10 font-bold">1</div>
+            <div className="w-7 h-7 ps-2.5 mt-11 bg-white rounded-2xl absolute top-48 left-10 font-bold">1</div>
           )}
           {allDetailsFilled2 && (
-            <div className="w-7 h-8 ps-2.5 pt-0.5 mt-2 bg-white rounded-2xl absolute top-60 left-10 font-bold">2</div>
+            <div className="w-7 h-8 ps-2.5 pt-0.5 mt-10 bg-white rounded-2xl absolute top-60 left-10 font-bold">2</div>
           )}
           {allDetailsFilled3 && (
-            <div className="w-7 h-8 ps-2.5 pt-0.5 mt-2 bg-white rounded-2xl absolute top-72 left-10 font-bold">3</div>
+            <div className="w-7 h-8 ps-2.5 pt-0.5 mt-10 bg-white rounded-2xl absolute top-72 left-10 font-bold">3</div>
           )}
           {allDetailsFilled4 && (
-            <div className="w-7 h-8 ps-2.5 mt-6 bg-white rounded-2xl absolute top-80 left-10 font-bold">4</div>
+            <div className="w-7 h-8 ps-2.5 mt-14 bg-white rounded-2xl absolute top-80 left-10 font-bold">4</div>
           )}
-          {allDetailsFilled5 && (
-            <div className="w-7 h-7 ps-2.5 mt-14 bg-white rounded-2xl absolute top-96 left-10 font-bold">6</div>
-          )}
+          
           {allDetailsFilled6 && (
-            <div className="w-7 h-7 ps-2.5 mt-2 bg-white rounded-2xl absolute top-96 left-10 font-bold">5</div>
+            <div className="w-7 h-7 ps-2.5 mt-10 bg-white rounded-2xl absolute top-96 left-10 font-bold">5</div>
           )}
         </div>
       )}
 
+
       <div>
         {/* User details */}
-
-        {details.map((del, index) => (
+{details.map((del, index) => (
         <div key={index}>
           <h3 className="text-xs sm:text-sm md:text-2xl lg:text-3xl text-cyan-600 font-bold ms-">
             {truncate(del.name || predefinedText.details.name, 20 )}
@@ -133,9 +131,6 @@ const Template1 = ({
                 {truncate(del.link || predefinedText.details.link, 15)}
               </a>
             </li>
-            <li className={`${del.projects ? 'before:content-["●"] before:m-2' : ''} w-2/2 break-all`}>
-        <a href={del.projects || '#'}>{del.projects || predefinedText.details.projects}</a>
-      </li>
             <li>
               
               <a href={del.github || '#'} target="_blank" rel="noopener noreferrer">
@@ -206,6 +201,7 @@ const Template1 = ({
 </div>
 
 
+
         {/* Rendering education */}
         <div className="page-break"></div>
         <div className="flex items-center">
@@ -216,12 +212,12 @@ const Template1 = ({
           <div key={index}>
             <div className="flex justify-between">
               <h6 className="font-bold break-all">{edu.schoolname || predefinedText.educations.schoolname}</h6>
-              <p>{edu.edmonth1} - {edu.edmonth2}</p>
+              <p className=' text-xs text-xs sm:text-xs md:text-xs lg:text-xs'>{edu.edmonth1} - {edu.edmonth2}</p>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between  text-xs sm:text-sm md:text-sm lg:text-sm">
               <h6>{edu.schoolplace || predefinedText.educations.schoolplace}</h6>
             </div>
-            <p>{edu.coursename  || predefinedText.educations.coursename}</p>
+            <p className=' text-xs sm:text-xs md:text-xs lg:text-xs'>{edu.coursename  || predefinedText.educations.coursename}</p>
           </div>
         ))}
 
@@ -231,12 +227,29 @@ const Template1 = ({
           <h5 className="text-cyan-600 font-bold">SKILLS</h5>
           <div className="flex-grow border-t border-gray-300 align-super"></div>
         </div>
-        {skills.map((skill, index) => (
-          <div key={index} className="flex mt-3">
-            <span className="font-bold text-xs sm:text-sm w-32">{skill.skillname  || predefinedText.skills.skillname}</span>
-            <h6 className="text-xs sm:text-sm">{skill.skilldetails || predefinedText.skills.skilldetails}</h6>
-          </div>
-        ))}
+        <div className="flex flex-wrap gap-2 text-start text-xs sm:text-xs md:text-xs lg:text-xs">
+  {skills.map((skill, index) => (
+    <span key={index} className="flex items-center text-xs sm:text-xs md:text-xs lg:text-xs mr-2 mt-2 gap-">
+      <p className={`${skill.skillname ? 'before:content-["●"] before:m-2 font' : ''} break-all`}>
+        {skill.skillname || predefinedText.skills.skillname}
+      </p>
+      <p className={`${skill.skilldetails ? 'before:content-["●"] before:m-2' : 'ms-2'} w-auto break-all`}>
+        {skill.skilldetails || predefinedText.skills.skilldetails}
+      </p>
+    </span>
+  ))}{skillsfromapi && skillsfromapi.length > 0 && (
+    <p className="text-start ">
+      {skillsfromapi.map((skill, index) => (
+        <span key={index}>
+          {skill}
+          {index !== skillsfromapi.length - 1 && ' ● '}
+        </span>
+      ))}
+    </p>
+  )}
+</div>
+
+        
 
         {/* Rendering additional sections */}
         <div className="page-break"></div>

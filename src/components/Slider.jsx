@@ -41,7 +41,7 @@ const Slider = ({
 
   return (
     <div className="h-max pb-80 justify-center bg-blue-300" >
-      <div className='pt-14 ps-16'>
+      <div className='pt-14 ps-10'>
         <img src={logo}  className='w mb-10'style={{ width:'130px'}} alt="" />
       </div>
       <div className="px- py-3 flex ps-10">

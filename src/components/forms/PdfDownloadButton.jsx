@@ -1,13 +1,13 @@
 import React from 'react';
 import html2pdf from 'html2pdf.js';
-
+import logo from "../images/logo3.png"
 const PdfDownloadButton = ({ targetRef }) => {
   const handlePayment = () => {
     const options = {
-      key: 'rzp_test_rZaWARvDVQrglw', // Replace with your Razorpay key
-      amount: 50000, // Amount in paise (50000 paise = INR 500)
+      key: 'rzp_live_pZ9kOB86mfVntS', // Replace with your Razorpay live key
+      amount: 100, // Amount in paise (4900 paise = INR 49)
       currency: 'INR',
-      name: 'Your Company Name',
+      name: 'Om Hr',
       description: 'Payment for PDF Download',
       handler: function (response) {
         handleDownload();
@@ -53,8 +53,8 @@ const PdfDownloadButton = ({ targetRef }) => {
 
   return (
     <button onClick={handleButtonClick} className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-blue-500 rounded-lg group bg-blue-800 group-hover:bg-blue-950 border hover:text-white dark:text-blue focus:ring-2 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-100">
-      <span className="relative p-5 transition-all ease-in duration-75 bg-white dark:bg-gray-100 rounded-md group-hover:bg-opacity-0 font-bold">
-        Download
+      <span className="relative p-5 w-80 transition-all ease-in duration-75 bg-white dark:bg-gray-100 rounded-md group-hover:bg-opacity-0 font-bold">
+       Pay & Download
       </span>
     </button>
   );
