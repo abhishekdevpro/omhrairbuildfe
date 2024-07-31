@@ -52,7 +52,7 @@ const Experience = ({
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer sk-proj-UFPHszYaLuX1NndMgXXsT3BlbkFJc9x2qiHPgVFO7ibxHOqe`, // Replace with your actual API key
+       //     'Authorization': `Bearer sk-proj-UFPHszYaLuX1NndMgXXsT3BlbkFJc9x2qiHPgVFO7ibxHOqe`, // Replace with your actual API key
           },
           body: JSON.stringify({
             model: 'gpt-3.5-turbo',
