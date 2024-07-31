@@ -1,5 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-sk-proj-UFPHszYaLuX1NndMgXXsT3BlbkFJc9x2qiHPgVFO7ibxHOqe
+/sk-proj-UFPHszYaLuX1NndMgXXsT3BlbkFJc9x2qiHPgVFO7ibxHOqe
 # dependencies
 /node_modules
 /.pnp
