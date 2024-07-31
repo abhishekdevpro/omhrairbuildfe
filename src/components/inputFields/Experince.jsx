@@ -44,31 +44,31 @@ const Experience = ({
   const handleSearchChange = async (e) => {
     const value = e.target.value;
     setSearchValue(value);
-  
-    if (e.key === 'Enter' && value.length > 2) { // Check if Enter key is pressed
+
+    if (e.key === 'Enter' && value.length > 2) {
       setIsLoading(true);
       try {
-        const token = localStorage.getItem('token');
-  
-        const response = await fetch('https://api.perfectresume.ca/api/user/ai-resume-profexp-data', {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
+            'Authorization': `Bearer sk-proj-UFPHszYaLuX1NndMgXXsT3BlbkFJc9x2qiHPgVFO7ibxHOqe`, // Replace with your actual API key
           },
           body: JSON.stringify({
-            key: "professional_experience",
-            keyword: "Cecklist of professional experience in manner of content and informations ",
-            Content: value
+            model: 'gpt-3.5-turbo',
+            messages: [
+              { role: 'system', content: 'You are a helpful assistant.' },
+              { role: 'user', content: value },
+            ],
           }),
         });
-  
+
         if (!response.ok) {
-          throw new Error('Failed to fetch data');
+          throw new Error('Please enter correct word ');
         }
-  
+
         const data = await response.json();
-        const responsibilities = data.data.resume_analysis.responsibilities || [];
+        const responsibilities = data.choices[0].message.content.split('\n').filter(line => line.trim() !== '');
         setSearchResults(responsibilities);
       } catch (err) {
         setError(err.message);
@@ -79,17 +79,17 @@ const Experience = ({
       setSearchResults([]);
     }
   };
-  
-  
+
   const handleDescriptionChange = (value, index) => {
     handleInputChange({ target: { name: 'companydescription', value } }, index, 'experiences');
   };
-  
+
   const handleSearchResultSelect = (result, index) => {
     handleInputChange({ target: { name: 'companydescription', value: result } }, index, 'experiences');
     setSearchValue(''); // Clear search input after selection if needed
     setSearchResults([]); // Clear search results after selection
   };
+
   const handleSuggestionSelect = (result) => {
     // Handle selection of a suggestion and update state
     handleInputChange({ target: { name: 'companydescription', value: result } }, 0, 'experiences');
@@ -205,8 +205,8 @@ const Experience = ({
                       viewBox="0 0 24 24"
                     >
                       <path fill="none" d="M0 0h24v24H0z" />
-                      <line x1="9" y1="12" x2="15" y2="12" stroke="white" />
-                      <line x1="12" y1="9" x2="12" y2="15" stroke="white" />
+                      <line x1="9" y1="12" x2="15" y1="12" stroke="white" />
+                      <line x1="12" y1="9" x2="12" y1="15" stroke="white" />
                     </svg>
                     <h3>AI - Assist</h3>
                   </button>
@@ -223,46 +223,47 @@ const Experience = ({
                         />
                         {!isLoading && !error && searchResults.length > 0 && (
                           <ul className="mt-2">
-                            {searchResults.map((result, index) => (
+                            {searchResults.map((result, idx) => (
                               <li
-                                key={index}
-                                className="py-1 px-3 hover:bg-gray-100 cursor-pointer"
-                                onClick={() => handleSuggestionSelect(result, index)}
+                                key={idx}
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                onClick={() => handleSearchResultSelect(result, index)}
                               >
                                 {result}
                               </li>
                             ))}
                           </ul>
                         )}
+                        {isLoading && <div>Loading...</div>}
                         {error && <div className="text-red-500">{error}</div>}
                       </div>
                     </div>
                   )}
                 </div>
               </div>
-               <ReactQuill
-                value={exp.companydescription || ''}
+              <ReactQuill
+                theme="snow"
+                value={exp.companydescription}
                 onChange={(value) => handleDescriptionChange(value, index)}
-                className="w-full h-40 p-2 mb-4 break-all"
+                placeholder="Write something about the company..."
+                className="mb-4"
               />
-
               <button
                 type="button"
                 onClick={() => deleteExperience(index)}
-                className="mt-10 text-red-500"
+                className="text-red-500 hover:text-red-700 text-xs mb-4"
               >
-                Delete Experience
+                Delete
               </button>
             </div>
           </div>
         ))}
-        <button className="font-bold text-lg flex items-center" onClick={addExperience}>
-          <h3>Add Item</h3>
-          <svg className="h-5 w-5 text-white bg-black rounded-full m-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path fill="none" d="M0 0h24v24H0z"/>
-            <line x1="9" y1="12" x2="15" y2="12" stroke="white" />
-            <line x1="12" y1="9" x2="12" y2="15" stroke="white" />
-          </svg>
+        <button
+          type="button"
+          onClick={addExperience}
+          className="bg-blue-500 text-white px-4 py-2 rounded-md"
+        >
+          Add Experience
         </button>
       </div>
     </div>
