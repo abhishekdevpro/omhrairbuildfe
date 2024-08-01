@@ -47,12 +47,12 @@ const Experience = ({
 
     if (e.key === 'Enter' && value.length > 2) {
       setIsLoading(true);
-      try { const token = 'sk-proj-UFPHszYaLuX1NndMgXXsT3BlbkFJc9x2qiHPgVFO7ibxHOqe';
+      try { 
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer sk-proj-FlhjiPsiaQHi00pfE5rPT3BlbkFJiNRHzFwrLJy1WU1Db7RQ `, // Replace with your actual API key
+            'Authorization': `Bearer sk-proj-FlhjiPsiaQHi00pfE5rPT3BlbkFJiNRHzFwrLJy1WU1Db7RQ`, // Replace with your actual API key
           },
           body: JSON.stringify({
             model: 'gpt-3.5-turbo',
