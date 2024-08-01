@@ -47,12 +47,12 @@ const Experience = ({
 
     if (e.key === 'Enter' && value.length > 2) {
       setIsLoading(true);
-      try {
+      try { const token = 'sk-proj-UFPHszYaLuX1NndMgXXsT3BlbkFJc9x2qiHPgVFO7ibxHOqe';
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-       //     'Authorization': `Bearer sk-proj-UFPHszYaLuX1NndMgXXsT3BlbkFJc9x2qiHPgVFO7ibxHOqe`, // Replace with your actual API key
+            'Authorization': `Bearer sk-proj-FlhjiPsiaQHi00pfE5rPT3BlbkFJiNRHzFwrLJy1WU1Db7RQ `, // Replace with your actual API key
           },
           body: JSON.stringify({
             model: 'gpt-3.5-turbo',
@@ -64,7 +64,7 @@ const Experience = ({
         });
 
         if (!response.ok) {
-          throw new Error('Please enter correct word ');
+          throw new Error('try ag');
         }
 
         const data = await response.json();
@@ -205,8 +205,8 @@ const Experience = ({
                       viewBox="0 0 24 24"
                     >
                       <path fill="none" d="M0 0h24v24H0z" />
-                      <line x1="9" y1="12" x2="15" y1="12" stroke="white" />
-                      <line x1="12" y1="9" x2="12" y1="15" stroke="white" />
+                      <line x1="9" y1="12" x2="15" y ="12" stroke="white" />
+                      <line x1="12" y1="9" x2="12" y ="15" stroke="white" />
                     </svg>
                     <h3>AI - Assist</h3>
                   </button>
