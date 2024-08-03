@@ -5,7 +5,7 @@ const PdfDownloadButton = ({ targetRef }) => {
   const handlePayment = () => {
     const options = {
       key: 'rzp_live_pZ9kOB86mfVntS', // Replace with your Razorpay live key
-      amount: 100, // Amount in paise (4900 paise = INR 49)
+      amount: 4900, // Amount in paise (4900 paise = INR 49)
       currency: 'INR',
       name: 'Om Hr',
       description: 'Payment for PDF Download',
@@ -52,8 +52,8 @@ const PdfDownloadButton = ({ targetRef }) => {
   };
 
   return (
-    <button onClick={handleButtonClick} className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-blue-500 rounded-lg group bg-blue-800 group-hover:bg-blue-950 border hover:text-white dark:text-blue focus:ring-2 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-100">
-      <span className="relative p-5 w-80 transition-all ease-in duration-75 bg-white dark:bg-gray-100 rounded-md group-hover:bg-opacity-0 font-bold">
+    <button onClick={handleButtonClick} className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-yellow-600 rounded-lg group bg-yellow-500 group-hover:bg-blue-950 border hover:text-white dark:text-blue focus:ring-2 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-100">
+      <span className="ms-2 me-2 relative p-5 w-80 transition-all ease-in duration-75 bg-white dark:bg-gray-100 rounded-md group-hover:bg-opacity-0 font-bold text-xl">
        Pay & Download
       </span>
     </button>

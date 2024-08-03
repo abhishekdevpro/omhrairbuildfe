@@ -177,7 +177,7 @@ console.log(skillsfromapi,'api')
         </div>
         <div className='py-9 w-1/4'>
           <div className='flex justify-around'>
-            <div className="justify-end mt-4">
+            <div className="justify-end mt-4 ms-3">
               <PdfDownloadButton targetRef={cvRef} />
             </div>
             <div className='mt-4'>
@@ -187,7 +187,7 @@ console.log(skillsfromapi,'api')
           
           <div>
       {accuracyPercentage !== null ? (
-        <div className="api-data-container border-amber-600 border-4 py-4 ms-3">
+        <div className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-yellow-600 rounded-lg group bg-yellow-500 group-hover:bg-blue-950 border hover:text-white dark:text-blue focus:ring-2 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-100">
           {/* Render the content_acuracy_percentage */}
           <p className='font-semibold ms-5'>Your AI Score is Percentage: {accuracyPercentage}</p>
         </div>
@@ -195,7 +195,7 @@ console.log(skillsfromapi,'api')
         <button
           type="button"
           onClick={resumeScore}
-          className="ms-5 mt-5 mb-10 text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-bold rounded-full px-24 py-3 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 me-2 "
+          className="ms-5 mt-5 mb-10 text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-bold rounded-4 px-24 py-4 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 me-2 "
         >
           Check the AI Score
         </button>
