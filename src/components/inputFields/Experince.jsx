@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import styles
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const Experience = ({
   experiences = [],
@@ -44,31 +45,14 @@ const Experience = ({
   const handleSearchChange = async (e) => {
     const value = e.target.value;
     setSearchValue(value);
-
     if (e.key === 'Enter' && value.length > 2) {
       setIsLoading(true);
-      try { 
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer sk-proj-FlhjiPsiaQHi00pfE5rPT3BlbkFJiNRHzFwrLJy1WU1Db7RQ`, // Replace with your actual API key
-          },
-          body: JSON.stringify({
-            model: 'gpt-3.5-turbo',
-            messages: [
-              { role: 'system', content: 'You are a helpful assistant.' },
-              { role: 'user', content: value },
-            ],
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error('try ag');
-        }
-
-        const data = await response.json();
-        const responsibilities = data.choices[0].message.content.split('\n').filter(line => line.trim() !== '');
+      try {
+        const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GOOGLE_GENAI_API_KEY);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const result = await model.generateContent(value);
+        const response = result.response;
+        const responsibilities = response.text().split('\n').filter(line => line.trim() !== '');
         setSearchResults(responsibilities);
       } catch (err) {
         setError(err.message);
@@ -85,7 +69,9 @@ const Experience = ({
   };
 
   const handleSearchResultSelect = (result, index) => {
-    handleInputChange({ target: { name: 'companydescription', value: result } }, index, 'experiences');
+    const currentDescription = experiences[index].companydescription || '';
+    const newDescription = currentDescription ? `${currentDescription}\n${result}` : result;
+    handleInputChange({ target: { name: 'companydescription', value: newDescription } }, index, 'experiences');
     setSearchValue(''); // Clear search input after selection if needed
     setSearchResults([]); // Clear search results after selection
   };
@@ -102,7 +88,7 @@ const Experience = ({
         {experiences.map((exp, index) => (
           <div key={index} className="flex mt-4">
             <div className="w-full">
-              <h6 className='font-bold text-xs my-10 '>* indicates a required field</h6>
+              <h6 className='font-bold text-xs my-10'>* indicates a required field</h6>
               <div className="flex gap-4">
                 <div className="w-3/4">
                   <label htmlFor="Company" className="block text-xs font-medium text-gray-700 mb-2">
@@ -141,7 +127,7 @@ const Experience = ({
                   <input 
                     type="month" 
                     name="month1" 
-                    value={exp.month1 }
+                    value={exp.month1}
                     onChange={(e) => handleInputChange(e, index, 'experiences')}
                     className="w-full p-3 mb-4 border border-black rounded-lg"
                   /> 
@@ -154,7 +140,7 @@ const Experience = ({
                   <input 
                     type="month" 
                     name="month2" 
-                    value={exp.month2 }
+                    value={exp.month2}
                     onChange={(e) => handleInputChange(e, index, 'experiences')}
                     disabled={isCurrentlyWorking}
                     className="w-full p-3 mb-4 border border-black rounded-lg"
@@ -193,6 +179,17 @@ const Experience = ({
 
               <div className="flex justify-between text-lg my-2">
                 <h3>Description</h3>
+               
+              </div>
+              <ReactQuill
+                theme="snow"
+                value={exp.companydescription}
+                onChange={(value) => handleDescriptionChange(value, index)}
+                placeholder="Write something about the company..."
+                className="mb-4"
+              />
+               <div className="flex justify-between text-lg my-2">
+                <h3></h3>
                 <div className="relative inline-block text-left">
                   <button
                     type="button"
@@ -205,17 +202,18 @@ const Experience = ({
                       viewBox="0 0 24 24"
                     >
                       <path fill="none" d="M0 0h24v24H0z" />
-                      <line x1="9" y1="12" x2="15" y ="12" stroke="white" />
-                      <line x1="12" y1="9" x2="12" y ="15" stroke="white" />
+                      <line x1="9" y1="12" x2="15" y="12" stroke="white" />
+                      <line x1="12" y1="9" x2="12" y="15" stroke="white" />
                     </svg>
                     <h3>AI - Assist</h3>
                   </button>
                   {dropdownVisible && (
-                    <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                      <div className="relative inline-block text-left">
+                    <div className="origin-top-left absolute right-0 mt-3 w-80 rounded-md shadow-lg bg-white">
+                      <div className="absolute inline-block text-left">
+                        
                         <input
                           type="text"
-                          className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-80 px-3 py-2 border border-gray-300 rounded-md text-xs focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                           placeholder="Search..."
                           value={searchValue}
                           onChange={handleSearchChange}
@@ -226,7 +224,7 @@ const Experience = ({
                             {searchResults.map((result, idx) => (
                               <li
                                 key={idx}
-                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                className="px-4 py-2 hover:bg-gray-100 hover:text-black bg-gray-800 text-white cursor-pointer text-xs"
                                 onClick={() => handleSearchResultSelect(result, index)}
                               >
                                 {result}
@@ -241,13 +239,6 @@ const Experience = ({
                   )}
                 </div>
               </div>
-              <ReactQuill
-                theme="snow"
-                value={exp.companydescription}
-                onChange={(value) => handleDescriptionChange(value, index)}
-                placeholder="Write something about the company..."
-                className="mb-4"
-              />
               <button
                 type="button"
                 onClick={() => deleteExperience(index)}
